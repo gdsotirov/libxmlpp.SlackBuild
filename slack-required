@@ -1,9 +1,10 @@
-cxxlibs >= 6.0.14 | gcc-g++ >= 4.5.2
-gcc >= 4.5.2
-glib2 >= 2.30.2
-glibc-solibs >= 2.13
-glibmm >= 2.30.0
-libffi >= 3.0.10
-libsigc++ >= 2.2.10
-libxml2 >= 2.7.8
-zlib >= 1.2.5
+cxxlibs >= 6.0.17 | gcc-g++ >= 4.7.1
+gcc >= 4.7.1
+glib2 >= 2.32.4
+glibc-solibs >= 2.15
+glibmm >= 2.32.1
+libffi >= 3.0.11
+libsigc++ >= 2.3.2
+libxml2 >= 2.8.0
+zlib >= 1.2.6
+xz >= 5.0.4
