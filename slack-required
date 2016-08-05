@@ -1,5 +1,5 @@
-cxxlibs >= 6.0.18 | gcc-g++ >= 4.8.2
 gcc >= 4.8.2
+gcc-g++ >= 4.8.2
 glib2 >= 2.36.4
 glibc-solibs >= 2.17
 glibmm2 >= 2.36.2
