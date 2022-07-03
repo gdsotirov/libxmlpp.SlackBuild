@@ -23,9 +23,7 @@
 . ../../slack-package.conf
 
 NAME=libxml++
-VERSION=2.40.1
-LIB_VER_MAJ=2
-LIB_VER_MIN=6
+VERSION=3.2.3
 BUILD=${BUILD:-1}
 ARCH=${ARCH:-i586}
 
@@ -57,32 +55,31 @@ cd $SRC
 fix_source
 
 # Configure
-CFLAGS=$SLKCFLAGS \
-CXXFLAGS=$SLKCFLAGS \
-./configure --build="$ARCH-slackware-linux" \
-            --host="$ARCH-slackware-linux" \
-            --prefix=/usr \
-            --libdir=/usr/lib${LIBDIRSUFFIX} \
-            --docdir=/usr/doc/$NAME-$VERSION \
-            --enable-shared=yes \
-            --enable-static=no || exit 4
+meson --prefix /usr --libdir lib${LIBDIRSUFFIX} builddir . || exit 41
+cd builddir
+meson configure \
+    -Dbuildtype=release \
+    -Dbuild-documentation=true \
+    -Dbuild-examples=true \
+    -Dbuild-tests=true \
+    -Dcpp_args="$SLKCFLAGS" \
+    -Ddefault_library=shared \
+    -Dstrip=true || exit 42
 
-# Build & install
-make --jobs 4 || exit 5
-make DESTDIR=$PKG install || exit 6
+# Build, test & install
+meson compile --verbose || exit 5
+meson test --verbose || exit 6
+DESTDIR=$PKG \
+meson install || exit 7
 
 # Prepare
 bin_perms $PKG
 ( cd $PKG; strip_bin; strip_lib )
 ( cd $SRC; create_docs $PKG $NAME-$VERSION )
-# Additionally copy manual and examples, fix reference location
-cp --archive $SRC/examples $PKG/usr/doc/$NAME-$VERSION/examples
-rm --recursive $PKG/usr/doc/$NAME-$VERSION/examples/Makefile*
-install --mode 755 --directory $PKG/usr/doc/$NAME-$VERSION/manual
-cp --archive $SRC/docs/manual/html $PKG/usr/doc/$NAME-$VERSION/manual/html
-install --mode 755 --directory $PKG/usr/doc/$NAME-$VERSION/reference
-mv $PKG/usr/share/doc/$NAME-${LIB_VER_MAJ}.${LIB_VER_MIN}/reference/html \
-   $PKG/usr/doc/$NAME-$VERSION/reference
+# Additionally copy examples and move docs in the right place
+cp --archive $SRC/examples $PKG/usr/doc/${NAME}-${VERSION}/examples
+mv $PKG/usr/share/doc/${NAME}-3.0/manual    $PKG/usr/doc/${NAME}-${VERSION}
+mv $PKG/usr/share/doc/${NAME}-3.0/reference $PKG/usr/doc/${NAME}-${VERSION}
 rm --recursive $PKG/usr/share/doc
 
 install --mode 755 --directory $PKG/install
