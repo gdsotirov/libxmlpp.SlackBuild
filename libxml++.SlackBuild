@@ -86,14 +86,19 @@ mv $PKG/usr/share/doc/$NAME-${LIB_VER_MAJ}.${LIB_VER_MIN}/reference/html \
 rm --recursive $PKG/usr/share/doc
 
 install --mode 755 --directory $PKG/install
-install --mode 644 $CWD/slack-desc     $PKG/install/slack-desc
-install --mode 644 $CWD/slack-required $PKG/install/slack-required
+install --mode 644 --preserve-timestamp \
+        $CWD/slack-desc     $PKG/install/slack-desc
+install --mode 644 --preserve-timestamp \
+        $CWD/slack-required $PKG/install/slack-required
 
 SBDIR=$PKG/usr/src/slackbuilds/$NAME-$VERSION
 install --mode 755 --directory $SBDIR
-install --mode 644 $CWD/slack-desc       $PKG/usr/src/slackbuilds/$NAME-$VERSION/slack-desc
-install --mode 644 $CWD/slack-required   $PKG/usr/src/slackbuilds/$NAME-$VERSION/slack-required
-install --mode 644 $CWD/$NAME.SlackBuild $PKG/usr/src/slackbuilds/$NAME-$VERSION/$NAME.SlackBuild
+install --mode 644 --preserve-timestamp \
+        $CWD/slack-desc       $PKG/usr/src/slackbuilds/$NAME-$VERSION/slack-desc
+install --mode 644 --preserve-timestamp \
+        $CWD/slack-required   $PKG/usr/src/slackbuilds/$NAME-$VERSION/slack-required
+install --mode 644 --preserve-timestamp \
+        $CWD/$NAME.SlackBuild $PKG/usr/src/slackbuilds/$NAME-$VERSION/$NAME.SlackBuild
 
 # Pack
 cd $PKG
