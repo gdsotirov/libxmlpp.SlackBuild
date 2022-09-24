@@ -23,7 +23,7 @@
 . ../../slack-package.conf
 
 NAME=libxml++
-VERSION=3.2.3
+VERSION=3.2.4
 BUILD=${BUILD:-1}
 ARCH=${ARCH:-i586}
 
